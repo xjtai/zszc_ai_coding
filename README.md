@@ -11,31 +11,33 @@ flowchart LR
     P[prd.md<br/>已给] --> S[spec.md<br/>需求理解]
     S --> PL[plan.md<br/>方案设计]
     PL --> T[tasks.md<br/>任务清单]
-    T --> EV1[evals.md<br/>先写测试用例]
+    T --> EV1[eval.md<br/>先写测试用例]
     EV1 --> C[Coding Agent<br/>按 tasks.md 实现]
-    C --> EV2[evals.md<br/>回填实测结果]
+    C --> EV2[eval.md<br/>回填实测结果]
     EV2 --> L[learnings.md<br/>复盘]
 ```
 
 代码由 Coding Agent 依据 `spec.md` / `plan.md` / `tasks.md` 生成，不是人工从零手写——这三份文档写得够清楚，是编码环节能顺利跑起来的前提。
 
+五份模板的节结构、frontmatter 字段、编号规则（`spec.md` 的 US-xx、`tasks.md` 的 T-xx、`learnings.md` 的 L-xx），参照的是 [`xjtai/KnowledgeBase`](https://github.com/xjtai/KnowledgeBase) 仓库 `docs/sdd/` 下的真实示例，不是临时发明的格式——这次练的写法，回到日常工作里是通用的。原示例假设有已上线的代码库、下游系统和四层知识库，本次是从零搭建，各模板顶部的注释里都标了对应做了哪些简化（`knowledge_refs`/`score` 留空即可，"下游回归确认"改成"系统级回归确认"等），照着模板注释走就行，不用回去比对原仓库。
+
 ## 怎么开始
 
-1. 通读 [`prd.md`](./prd.md)，尤其是 §2（需求分类，至少选 2 类）、§4（验收标准）、§5（五份产出文档的定义）。
+1. 通读 [`prd.md`](./prd.md)，尤其是 §2（需求分类，至少选 2 类）、§4（验收标准）、§5（五份产出文档的定义与硬规则）。
 2. 把 `templates/` 下的五个模板复制到你们组的工作分支根目录，去掉文件名里的 `.template`：
 
    ```
    templates/spec.template.md      → spec.md
    templates/plan.template.md      → plan.md
    templates/tasks.template.md     → tasks.md
-   templates/evals.template.md     → evals.md
+   templates/eval.template.md      → eval.md
    templates/learnings.template.md → learnings.md
    ```
 
-3. 按 `prd.md` §6 的时间节奏，依次填写 `spec.md` → `plan.md` → `tasks.md`（含 `evals.md` 的测试用例部分）。
-4. 把 `spec.md`、`plan.md`、`tasks.md` 交给 Coding Agent，让它按 `tasks.md` 的任务顺序实现（`templates/tasks.template.md` 里有一段可直接复制的起始 prompt）。
-5. 编码完成后，按 `evals.md` 定义的用例跑测试，把结果回填进 `evals.md`。
-6. 写 `learnings.md` 复盘，准备现场演示。
+3. 按 `prd.md` §6 的时间节奏，依次填写 `spec.md` → `plan.md` → `tasks.md`（含 `eval.md` 的测试用例部分）。`spec.md` §2（消歧）和 §5（验收标准）是唯一不能省的两节，其余节时间紧张可以简写。
+4. 把 `spec.md`、`plan.md`、`tasks.md` 交给 Coding Agent，让它按 `tasks.md` 的 T-01→T-07 顺序实现（`templates/tasks.template.md` 末尾有一段可直接复制的起始 prompt）。
+5. 编码完成后（对应 `tasks.md` 的 T-06），按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`。
+6. T-07：写 `learnings.md` 复盘，准备现场演示。
 
 ## 目录结构
 
@@ -46,7 +48,7 @@ templates/                      五份产出文档的模板（复制后重命名
   spec.template.md
   plan.template.md
   tasks.template.md
-  evals.template.md
+  eval.template.md
   learnings.template.md
 ```
 

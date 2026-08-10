@@ -1,21 +1,32 @@
 ---
-learningsId: LEARNINGS-<组名>-001
+specId: SPEC-<组名>-001
 type: learnings
-title: 企业级高可用多智能体客服 AI 智能体系统
+parent_spec: spec.md
+eval_ref: eval.md
+domain: 客服
+system: <组名>-customer-service-agent
 owner: <组名 / 组员姓名>
 status: 草稿
-based_on: [spec.md, plan.md, tasks.md, evals.md]
-created_at:
-related: []
+confirmed: false
+version: 0.1
+updated_at:
+writeback_status: N/A     # 本次没有真实知识库可写回，见下方说明
+writeback_pr: N/A
+related_specs: []
+score: {}
 ---
 
 <!-- ──────────────────────────────────────────────────────────────
   learnings.md ｜ 经验沉淀（这次实战真正想沉淀下来的东西）
 
-  这一步要做什么      代码是这次实战的载体，不是目的；目的是让大家
-        把"怎么用 AI Coding 走完 prd → spec → plan → tasks → evals
-        → 代码"这条方法论跑一遍，然后把踩过的坑、好用的技巧写下来，
-        这份文件比代码本身更值得带回工作中用。
+  结构来源      L-01~L-05 五条经验、每条"问题/根因/修复/回流/可
+        复用性"五个字段，参照 xjtai/KnowledgeBase 仓库
+        docs/sdd/learnings.md 的真实示例。原示例的"回流"指把经验
+        写回四层知识库的具体条目（用 ➜ 标注写回目标）；本次工作坊
+        没有真实知识库，"回流"改写成：这条经验应该被写进你们以后
+        自己的 AI Coding checklist，还是这次 plan.md 的"不改清单"，
+        还是反馈给培训教学组改进下次的题目设计——挑一个具体去处，
+        不要写"以后注意"这种没有落点的话。
 
   怎么写      不用面面俱到，挑真实发生的、具体的记录，废话（"AI 很
         智能""团队配合很好"这种）不算经验沉淀。
@@ -23,31 +34,56 @@ related: []
 
 # LEARNINGS-\<组名\>-001｜经验沉淀
 
-## 1. 过程回顾
+## 这五条是怎么被找出来的
 
-| 阶段 | 计划耗时 | 实际耗时 | 说明 |
-|---|---|---|---|
-| spec.md | 20min | | |
-| plan.md | 20min | | |
-| tasks.md | 15min | | |
-| AI Coding | 80min | | |
-| evals 实测 | 25min | | |
-| learnings + 演示准备 | 20min | | |
+简述：是从 eval.md 的判定结论里挑的，还是编码过程中人工发现 Coding Agent 理解错了，还是演示时被问出来的？
 
-## 2. AI Coding 有效技巧
+## 回流入口对照
 
-- 哪些 prompt 写法 / 拆分方式让 Coding Agent 产出明显更准确？
-- 怎么做增量式 code review（不是等全部写完才看）？
+| 经验编号 | 回流去处 |
+|---|---|
+| L-01 | |
+| L-02 | |
+| L-03 | |
 
-## 3. 踩坑记录
+## L-01　〔一句话描述现象〕
 
-- Coding Agent 生成的代码在哪里跑偏了？怎么发现、怎么纠正的？
-- spec.md / plan.md 里哪些地方写得不够清楚，导致 Agent 理解错了？
+- 问题：
+- 根因：
+- 修复：
+- 回流：➜（写进哪份文档的哪一节，或反馈给谁）
+- 可复用性：（这个坑下次做类似系统还会不会踩？值不值得写成团队规范？）
 
-## 4. 如果重来一次
+## L-02　〔一句话描述现象〕
 
-- 这条 SDD 流程（spec → plan → tasks → evals → 代码），哪一步应该多花时间，哪一步可以精简？
+- 问题：
+- 根因：
+- 修复：
+- 回流：➜
+- 可复用性：
 
-## 5. 可迁移到日常工作的经验（3–5 条）
+## L-03　〔一句话描述现象〕
 
--
+- 问题：
+- 根因：
+- 修复：
+- 回流：➜
+- 可复用性：
+
+（时间允许可补 L-04、L-05）
+
+## 度量回填
+
+| 阶段 | 计划耗时 | 实际耗时 |
+|---|---|---|
+| spec.md | 20min | |
+| plan.md | 20min | |
+| tasks.md + eval.md 用例 | 15min | |
+| AI Coding | 80min | |
+| eval.md 实测 | 25min | |
+| learnings + 演示 | 20min | |
+
+| 指标 | 目标 | 实测 |
+|---|---|---|
+| 路由准确率 | ≥85% | |
+| 性能 | 10 QPS | |

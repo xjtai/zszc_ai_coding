@@ -8,11 +8,11 @@ status: 待分组认领
 priority: P0
 created_at: 2026-08-10
 expected_release: 2026-08-10（培训当日，开题后 3 小时内完成现场演示）
-related: [templates/spec.template.md, templates/plan.template.md, templates/tasks.template.md, templates/evals.template.md, templates/learnings.template.md]
+related: [templates/spec.template.md, templates/plan.template.md, templates/tasks.template.md, templates/eval.template.md, templates/learnings.template.md]
 
 # 与附件示例一致：本文件只给「业务要建什么、为什么建、验收线在哪」，
 # 不给架构、不给智能体划分、不给代码骨架。
-# 从 prd.md 到 spec.md/plan.md/tasks.md/evals.md/learnings.md 再到代码，
+# 从 prd.md 到 spec.md/plan.md/tasks.md/eval.md/learnings.md 再到代码，
 # 是本次 3 小时实战本身要练的能力，由各小组自己完成，讲师/助教不预先剧透答案。
 ---
 
@@ -22,7 +22,7 @@ related: [templates/spec.template.md, templates/plan.template.md, templates/task
   为什么是这份文件      1.5 天工作坊的最后 0.5 天（3 小时）是分组实战：
         学员要把前 1 天学到的 AI Coding / SDD 方法论，在一个"看得见、
         验得了"的题目上跑通一次完整闭环——从这份 PRD 出发，自己走完
-        spec.md → plan.md → tasks.md → evals.md，再交给 Coding Agent
+        spec.md → plan.md → tasks.md → eval.md，再交给 Coding Agent
         实现，最后写 learnings.md 复盘。
 
   刻意不加工      本文件只描述业务意图、参考素材和验收线，不指定智能体
@@ -39,7 +39,7 @@ related: [templates/spec.template.md, templates/plan.template.md, templates/task
         spec.md（需求理解：范围、场景、验收口径）
         → plan.md（方案设计：智能体划分、路由策略、工具/数据、降级策略）
         → tasks.md（任务拆解，供 Coding Agent 顺序执行）
-        → evals.md（先定测试用例，AI Coding 后回填实测结果）
+        → eval.md（先定测试用例，AI Coding 后回填实测结果）
         → AI Coding 实现 → learnings.md（复盘）→ 现场演示与验收。
         完整流程说明见本文件 §5。
 ────────────────────────────────────────────────────────────── -->
@@ -165,28 +165,32 @@ flowchart TD
   - `spec.md`（需求理解）
   - `plan.md`（方案设计）
   - `tasks.md`（任务清单）
-  - `evals.md`（测试用例 + 实测结果）
+  - `eval.md`（测试用例 + 实测结果）
   - `learnings.md`（经验沉淀）
 - 现场 3–5 分钟演示 + 简要讲解（重点讲清智能体怎么划分、路由怎么做、失败怎么兜底）。
 
 ## 5. 实战流程与产出物（SDD 五件套）
 
-本次实战不是"讨论完架构直接开写"，而是完整走一遍 SDD 链路：**prd.md（已给）→ spec.md → plan.md → tasks.md → evals.md → Coding Agent 编码 → learnings.md**。五份文档各自回答一个问题，缺了哪一环，后面都会更难：
+本次实战不是"讨论完架构直接开写"，而是完整走一遍 SDD 链路：**prd.md（已给）→ spec.md → plan.md → tasks.md → eval.md → Coding Agent 编码 → learnings.md**。五份文档各自回答一个问题，缺了哪一环，后面都会更难：
 
 | 文档 | 模板 | 核心问题 | 产出时机 |
 |---|---|---|---|
 | spec.md | `templates/spec.template.md` | 到底要做什么？验收口径怎么定？ | 编码前 |
 | plan.md | `templates/plan.template.md` | 架构上怎么做？智能体怎么分、怎么兜底？ | 编码前 |
 | tasks.md | `templates/tasks.template.md` | 拆成哪些可执行任务？完成标准是什么？ | 编码前，同时是喂给 Coding Agent 的执行清单 |
-| evals.md | `templates/evals.template.md` | 怎么证明做对了？ | 测试用例：编码前先写；实测结果：编码后回填 |
+| eval.md | `templates/eval.template.md` | 怎么证明做对了？ | 测试用例：编码前先写；实测结果：编码后回填 |
 | learnings.md | `templates/learnings.template.md` | 这次做下来，学到了什么、下次怎么改进？ | 编码与验收完成之后 |
+
+五份模板的节结构、frontmatter 字段、Task/US/L-0x 编号规则，参照的是 [`xjtai/KnowledgeBase`](https://github.com/xjtai/KnowledgeBase) 仓库 `docs/sdd/` 下的真实示例（订单删除案例），字段名尽量原样保留，方便这次练的方法论直接迁移回日常工作。但原示例假设"已有代码库、有下游系统、有四层知识库、有 CI 评分脚本"，这些在本次从零搭建的场景里不存在——各模板顶部的注释里都标注了哪些节/字段做了对应简化（例如 `knowledge_refs`/`score` 留空即可，"下游回归确认"改写成"系统级回归确认"）。
 
 几条硬规则：
 
 - **代码由 Coding Agent 基于 spec.md / plan.md / tasks.md 生成，不是人工从零手写。** 人的角色是把这三份文档写清楚、review Agent 的产出、纠正偏差——写文档本身也是在练习"怎么把需求和设计讲清楚让 AI 听得懂"。
-- **evals.md 的测试用例要在编码开始前写好**，编码完成后再回填实测结果；不要等代码写完了才现想怎么测。
+- **spec.md §2（消歧）和 §5（验收标准）不能省**，其余节可以按时间取舍——这两节省了，团队对"到底做什么"的理解分歧是静默的，谁都不会当场发现。
+- **plan.md §6 的"不改清单"要认真写**，并在 tasks.md 的执行期约束里重申一遍：这是防止 Coding Agent 把验收标准、Golden Path 对话这类硬约束也顺手改掉的关键机制。
+- **eval.md 的测试用例要在编码开始前写好**，编码完成后再回填实测结果；不要等代码写完了才现想怎么测。
 - **learnings.md 不是可选项。** 代码是这次实战的载体，方法论才是要带走的东西。
-- 各模板的 HTML 注释里都写了"这一步该回答什么问题、不该回答什么问题"，写之前先看一遍，避免 spec.md 里写起了智能体划分（那是 plan.md 的事）。
+- 各模板的 HTML 注释里都写了"这一步该回答什么问题、不该回答什么问题、跟原示例比做了什么简化"，写之前先看一遍，避免 spec.md 里写起了智能体划分（那是 plan.md 的事）。
 
 ## 6. 时间安排（3 小时参考节奏）
 
@@ -194,9 +198,9 @@ flowchart TD
 |---|---|---|
 | 0:00–0:20 | 分组认领本 PRD，明确范围、场景清单、验收口径 | `spec.md` |
 | 0:20–0:40 | 架构设计：智能体划分、路由策略、工具/数据方案、降级策略 | `plan.md` |
-| 0:40–0:55 | 任务拆解 + 先写 evals.md 的测试用例集（≥20 条，编码前定好验收靶子） | `tasks.md`、`evals.md`（用例部分） |
+| 0:40–0:55 | 任务拆解 + 先写 eval.md 的测试用例集（≥20 条，编码前定好验收靶子） | `tasks.md`、`eval.md`（用例部分） |
 | 0:55–2:15 | 用 Coding Agent 按 tasks.md 顺序实现，人工滚动 review、纠偏 | 代码 + `tasks.md`（勾选状态） |
-| 2:15–2:40 | 按 evals.md 跑测试，回填实测结果，修复未达标项 | `evals.md`（实测结果部分） |
+| 2:15–2:40 | 按 eval.md 跑测试，回填实测结果，修复未达标项 | `eval.md`（实测结果部分） |
 | 2:40–3:00 | 写 `learnings.md` 复盘 + 现场演示 + 讲师/助教点评 | `learnings.md` |
 
 ## 7. 验收参考对话（Golden Path）
