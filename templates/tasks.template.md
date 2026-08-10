@@ -47,8 +47,8 @@ score: {}
 
 - 依赖：无
 - 负责人：
-- 产出物：可运行的项目骨架（含依赖安装、启动命令）
-- 验收口径：
+- 产出物：`src/` 下可运行的项目骨架，`src/README.md` 写清依赖安装与启动命令
+- 验收口径：别人 clone 下来照着 `src/README.md` 能跑起来
 - verify 命令：
 - 状态：⬜
 - 说明：
@@ -107,8 +107,8 @@ score: {}
 
 - 依赖：T-06
 - 负责人：
-- 产出物：可被现场访问的 demo（启动命令/访问方式）、Coding Agent 自动生成并经人确认的 learnings.md、tasks.md 全部状态更新
-- 验收口径：demo 能实际跑起来并演示；learnings.md 已由 Coding Agent 读取 spec/plan/tasks/eval 四份文档的变更记录生成，人评审确认
+- 产出物：可被现场访问的 demo（启动命令/访问方式已写进 `src/README.md`）、Coding Agent 自动生成并经人确认的 learnings.md、tasks.md 全部状态更新
+- 验收口径：照着 `src/README.md` 能把 demo 实际跑起来并演示；learnings.md 已由 Coding Agent 读取 spec/plan/tasks/eval 四份文档的变更记录生成，人评审确认
 - verify 命令：
 - 状态：⬜
 - 说明：

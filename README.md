@@ -126,7 +126,13 @@ templates/                      五份产出文档的结构模板（Coding Agent
   tasks.template.md
   eval.template.md
   learnings.template.md
+src/                            代码放这里（内部结构各组自己定，见 src/README.md）
+
+你们组做完之后，仓库根目录还会多出这五份文档：
+spec.md  plan.md  tasks.md  eval.md  learnings.md
 ```
+
+**文档放根目录，代码放 `src/`。** 五份产出文档是给人评审的，跟代码分开更容易 review；`src/` 里怎么组织由各组在 `plan.md` 里自己决定（框架不限定，Python 和 Java 的结构差别很大），但 `src/README.md` 必须写清楚怎么装依赖、怎么启动、怎么跑测试——评委会照着它现场启动。
 
 ## 验收标准
 

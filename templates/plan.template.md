@@ -51,9 +51,11 @@ score: {}
 - 路由方式：LLM 分类 / 规则匹配 / 混合——选哪个？为什么？被否决的方案是什么、为什么否决？
 - 多智能体框架：Spring AI / Spring AI Alibaba / LangChain / LangGraph / AutoGen / 自研 Router + Function Calling——选哪个？为什么？
 
-## 3. 数据模型
+## 3. 数据模型与代码结构
 
 Mock 数据结构（订单、商品、物流等，给出字段示例，如 JSON Schema）：
+
+`src/` 下的目录结构（各组自己定，写清楚即可，`src/README.md` 里有 Python / Java 两个参考示例）：
 
 ## 4. 关键流程
 
