@@ -6,7 +6,7 @@ eval_ref: eval.md
 domain: 客服
 system: <组名>-customer-service-agent
 owner: <组名 / 组员姓名>
-status: 草稿
+status: 草稿           # 草稿（评审过程中持续追加）/ 已整理（T-07 汇总成 L-0x）
 confirmed: false
 version: 0.1
 updated_at:
@@ -19,6 +19,14 @@ score: {}
 <!-- ──────────────────────────────────────────────────────────────
   learnings.md ｜ 经验沉淀（这次实战真正想沉淀下来的东西）
 
+  这份文件怎么产生      跟 spec/plan/tasks/eval 不同，这份文件不是
+        Coding Agent 一次性起草的：评审 spec.md、plan.md、tasks.md
+        时，每纠正一处错误、补一处遗漏，就顺手在下面的"评审过程记录"
+        里追加一行——当场记，不要留到最后凭记忆补。到 T-07，把这些
+        原始记录连同编码/评测/部署阶段发现的问题一起交给 Coding
+        Agent，让它整理成 L-01~L-05（有分析、有落点的版本），人再
+        评审一遍确认。
+
   "回流"是什么意思      本次工作坊没有真实知识库可写回，"回流"改成：
         这条经验应该被写进你们以后自己的 AI Coding checklist，还是
         这次 plan.md 的"不改清单"，还是反馈给培训教学组改进下次的
@@ -30,9 +38,21 @@ score: {}
 
 # LEARNINGS-\<组名\>-001｜经验沉淀
 
+## 评审过程记录（随评审进行，随时追加）
+
+评审 spec.md / plan.md / tasks.md 时，每纠正一处、补一处，就在这里加一行——这是 T-07 整理 L-01~L-05 的原始素材：
+
+| 来源 | 一句话描述 | 记录人 |
+|---|---|---|
+| spec.md 评审 | | |
+| plan.md 评审 | | |
+| tasks.md 评审 | | |
+| 编码 / eval 阶段 | | |
+| 部署阶段 | | |
+
 ## 这五条是怎么被找出来的
 
-简述：是从 eval.md 的判定结论里挑的，还是编码过程中人工发现 Coding Agent 理解错了，还是演示时被问出来的？
+简述：主要是从上面哪几行原始记录里挑出来的？有没有是从 eval.md 判定结论或演示时被问出来才发现的？
 
 ## 回流入口对照
 
@@ -72,12 +92,14 @@ score: {}
 
 | 阶段 | 计划耗时 | 实际耗时 |
 |---|---|---|
-| spec.md | 20min | |
-| plan.md | 20min | |
-| tasks.md + eval.md 用例 | 15min | |
+| spec.md 起草 | 10min | |
+| spec.md 评审 + plan.md 起草 | 15min | |
+| plan.md 评审 + tasks.md 起草 | 15min | |
+| tasks.md 评审（含 eval.md 用例） | 15min | |
 | AI Coding | 80min | |
-| eval.md 实测 | 25min | |
-| learnings + 演示 | 20min | |
+| eval.md 实测 | 20min | |
+| 部署发布 | 15min | |
+| learnings 汇总 + 演示 | 10min | |
 
 | 指标 | 目标 | 实测 |
 |---|---|---|

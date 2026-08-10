@@ -5,8 +5,8 @@ parent_spec: spec.md
 plan_ref: plan.md
 domain: 客服
 owner: <组名 / 组员姓名>
-status: 草稿
-confirmed: false
+status: 草稿          # 草稿（Coding Agent 起草）/ 待评审 / 已确认（人评审通过后）
+confirmed: false       # 人评审、纠错+补充后改为 true，确认后才能开始编码
 version: 0.1
 updated_at:
 execution_mode: sequential   # Coding Agent 按顺序逐项执行，不并行抢任务
@@ -20,10 +20,15 @@ score: {}
 
   为什么要有"verify 命令"      每个任务不是靠"看起来做完了"判断
         完成，而是靠一条能跑的命令/一个能复现的操作来自证——这也是
-        为什么最后两个任务分别是"跑完全部验证"和"结项回写"，验收
-        和复盘本身也是任务，不是任务清单之外的事。
+        为什么最后两个任务分别是"跑完全部验证"和"部署发布与结项
+        回写"，验收、部署和复盘本身也是任务，不是任务清单之外的事。
 
-  怎么用      建议把这份文件连同 spec.md、plan.md 一起交给
+  谁写、谁评审      这份文件由 Coding Agent 基于**已确认版**的
+        plan.md 起草（T-01~T-07 的任务划分 + 每项的 verify 命令），
+        人评审、纠错 + 补充后确认，才能进入编码阶段——T-01~T-05 是
+        实际动手编码的部分，评审 tasks.md 时就是在给编码阶段把关。
+
+  怎么用      这份文件确认后，连同 spec.md、plan.md 一起交给
         Coding Agent，让它按 T-01 → T-07 顺序执行，每做完一项在
         "状态"列打勾，并在"说明"里简述怎么实现的。
 ────────────────────────────────────────────────────────────── -->
@@ -98,12 +103,12 @@ score: {}
 - 状态：⬜
 - 说明：
 
-### T-07　结项回写
+### T-07　部署发布与结项回写
 
 - 依赖：T-06
 - 负责人：
-- 产出物：learnings.md 完成、tasks.md 全部状态更新
-- 验收口径：
+- 产出物：可被现场访问的 demo（启动命令/访问方式）、learnings.md 完成、tasks.md 全部状态更新
+- 验收口径：demo 能实际跑起来并演示；learnings.md 汇总了三轮评审（spec/plan/tasks）的纠错与补充
 - verify 命令：
 - 状态：⬜
 - 说明：
@@ -112,7 +117,8 @@ score: {}
 
 - [ ] T-01 ~ T-07 全部状态为 ✅
 - [ ] eval.md 的判定结论（§7）不是"不通过"
-- [ ] learnings.md 至少写满 L-01 ~ L-03
+- [ ] demo 已部署发布，可被现场访问
+- [ ] learnings.md 至少写满 L-01 ~ L-03，且能看出分别来自哪一轮评审
 
 ## 变更记录
 
@@ -124,13 +130,14 @@ score: {}
 
 ### 给 Coding Agent 的执行说明
 
-复制到你们与 Coding Agent 对话的第一条 prompt 里，按需修改：
+复制到你们与 Coding Agent 对话的第一条 prompt 里，按需修改（README.md 里还有起草 spec.md / plan.md / tasks.md 这三步各自的 prompt）：
 
 ```
-请阅读 spec.md、plan.md、tasks.md 三份文件。严格按 tasks.md 的 T-01 到 T-07
-顺序实现，每完成一项跑一下对应的 verify 命令，通过后把状态改成 ✅ 并在"说明"
-里简述实现方式。遇到 spec.md / plan.md 没覆盖的情况，按最小合理假设处理，
-把假设记下来，不要擅自扩大范围或引入未提及的新功能，且不允许改动
-plan.md §6"不改清单"里列出的内容。T-06 完成后把测试结果回填进 eval.md，
-T-07 完成后起草 learnings.md。
+请阅读 spec.md、plan.md、tasks.md 三份文件（均为已确认版）。严格按 tasks.md
+的 T-01 到 T-07 顺序实现，每完成一项跑一下对应的 verify 命令，通过后把状态
+改成 ✅ 并在"说明"里简述实现方式。遇到 spec.md / plan.md 没覆盖的情况，按
+最小合理假设处理，把假设记下来，不要擅自扩大范围或引入未提及的新功能，且
+不允许改动 plan.md §6"不改清单"里列出的内容。T-06 完成后把测试结果回填进
+eval.md 并给出判定结论；T-07 把 demo 部署起来，并把三轮评审记录汇总进
+learnings.md。
 ```

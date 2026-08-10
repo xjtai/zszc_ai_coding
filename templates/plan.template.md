@@ -7,8 +7,8 @@ domain: 客服
 system: <组名>-customer-service-agent
 owner: <组名 / 组员姓名>
 architect: <组名 / 组员姓名>
-status: 草稿
-confirmed: false
+status: 草稿          # 草稿（Coding Agent 起草）/ 待评审 / 已确认（人评审通过后）
+confirmed: false       # 人评审、纠错+补充后改为 true
 version: 0.1
 updated_at:
 tier: medium
@@ -24,6 +24,12 @@ score: {}
         写代码的架构：智能体怎么拆、路由怎么判、工具和数据怎么设计、
         失败了怎么兜底。tasks.md 的任务清单直接从这里的模块划分展开，
         所以这里的颗粒度要能让下一步"拆任务"不用再做设计决策。
+
+  谁写、谁评审      这份文件由 Coding Agent 基于**已确认版**的 spec.md
+        起草，人不从零手写，只做评审：直接在文件里改，把改动记进
+        learnings.md，确认后 status 改成"已确认"。评审时重点看 §6
+        的"不改清单"有没有漏项——这是编码阶段唯一能拦住 Agent 手滑
+        改错东西的机制，写漏了后面就没有第二道防线。
 
   §6"不改清单"为什么重要      这是这套方法论里专门为"让 AI Agent
         自己写代码"设计的一节：明确告诉 Coding Agent 哪些是硬约束、
