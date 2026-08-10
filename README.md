@@ -11,10 +11,12 @@ flowchart TD
     P[prd.md<br/>已给] -->|Coding Agent: 需求理解| S1[spec.md 草稿]
     S1 -->|人评审: 纠错+补充| S2[spec.md 确认]
     S2 -->|Coding Agent: 方案设计| PL1[plan.md 草稿]
-    S2 -->|Coding Agent: 验收判定起草| EV1[eval.md 草稿]
+    S2 -->|Coding Agent: 起草 §0/1/2/4| EV1[eval.md 草稿<br/>测试用例部分]
     PL1 -->|人评审: 纠错+补充| PL2[plan.md 确认]
-    EV1 -->|人评审: 纠错+补充| EV2[eval.md 确认<br/>用例部分]
+    EV1 -->|人评审: 纠错+补充| EV2[eval.md §0/1/2/4 确认]
+    PL2 -->|Coding Agent: 补齐 §3/5| EV3[eval.md 草稿<br/>降级+不改清单部分]
     PL2 -->|Coding Agent: 任务设计| T1[tasks.md 草稿]
+    EV3 -->|人评审: 纠错+补充| EV4[eval.md 全部确认]
     T1 -->|人评审: 纠错+补充| T2[tasks.md 确认]
     T2 -->|Coding Agent: 编码实现| CODE[代码]
     CODE -->|基于 eval.md 评测验收| EVAL[eval.md 回填结果]
@@ -23,7 +25,7 @@ flowchart TD
     L1 -->|人评审: 纠错+补充| L2[learnings.md 确认]
 ```
 
-`eval.md` 直接从确认版的 `spec.md` 派生，跟 `plan.md` 是并行的两条分支，不用等 `plan.md`/`tasks.md` 存在。每一轮评审的纠错和补充，记在对应文档自己的"变更记录"里就够了——`learnings.md` 最后由 Coding Agent 自动读取这四处生成，人不需要在过程中另外维护一份日志。
+`eval.md` 不是单一来源：测试用例部分（§0/§1/§2/§4）只依赖确认版的 `spec.md`，跟 `plan.md` 是并行的两条分支，不用等它；但降级测试和不改清单核对部分（§3/§5）结构上依赖 `plan.md`（§3 核对 plan.md §5 的降级设计，§5 核对 plan.md §6 的不改清单），要等 `plan.md` 确认后再补——不用等到编码完成，也不卡编码开始。每一轮评审的纠错和补充，记在对应文档自己的"变更记录"里就够了——`learnings.md` 最后由 Coding Agent 自动读取这四处生成，人不需要在过程中另外维护一份日志。
 
 ## 怎么开始
 
@@ -38,11 +40,12 @@ flowchart TD
    templates/learnings.template.md → learnings.md
    ```
 
-3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`，两者都确认后再起草 `tasks.md`。每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查，纠错和补充记进该文档自己的"变更记录"），改完再进入下一阶段。
-4. `tasks.md` 确认后，让 Coding Agent 按 T-01→T-07 顺序编码实现。
-5. T-06：按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`。
-6. 部署发布：把 demo 实际跑起来，确认能被现场访问。
-7. T-07：让 Coding Agent 自动读取 `spec.md`/`plan.md`/`tasks.md`/`eval.md` 的变更记录生成 `learnings.md`，人评审确认，准备现场演示。
+3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`（此时 `eval.md` 只能先写测试用例部分 §0/§1/§2/§4）。每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查，纠错和补充记进该文档自己的"变更记录"），改完再进入下一阶段。
+4. `plan.md` 确认后，让 Coding Agent 补齐 `eval.md` 的 §3/§5（依赖 plan.md 的降级设计和不改清单），同时起草 `tasks.md`；两者评审确认。
+5. `tasks.md` 确认后，让 Coding Agent 按 T-01→T-07 顺序编码实现。
+6. T-06：按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`。
+7. 部署发布：把 demo 实际跑起来，确认能被现场访问。
+8. T-07：让 Coding Agent 自动读取 `spec.md`/`plan.md`/`tasks.md`/`eval.md` 的变更记录生成 `learnings.md`，人评审确认，准备现场演示。
 
 ## 怎么喂给 Coding Agent（分阶段 prompt）
 
@@ -66,16 +69,19 @@ spec.md 已经过人工评审确认。请阅读确认版的 spec.md 和 prd.md�
 ```
 spec.md 已经过人工评审确认。请阅读确认版的 spec.md，做验收判定设计，参照
 templates/eval.template.md 起草 eval.md 的 §0、§1（AC 覆盖矩阵 + §1.1 路由
-准确率测试用例，至少 20 条，对照 spec.md §5 每条 US 编号），不用等 plan.md /
-tasks.md 存在。§2 及之后的章节留到编码完成后再回填。
+准确率测试用例，至少 20 条，对照 spec.md §5 每条 US 编号）、§2（验证范围）、
+§4（非功能门槛），不用等 plan.md / tasks.md 存在。§3（系统级回归确认）和
+§5（不改清单核对）依赖 plan.md，先留空，等 plan.md 确认后再补。
 ```
 
-**③ plan.md 人工确认后，起草 tasks.md**
+**③ plan.md 人工确认后，起草 tasks.md，并补齐 eval.md §3/§5**
 
 ```
 plan.md 已经过人工评审确认。请阅读确认版的 plan.md，做任务拆解，参照
 templates/tasks.template.md 的 T-01~T-07 结构起草 tasks.md，每项要有明确的
-verify 命令。
+verify 命令。同时把 eval.md 的 §3（系统级回归确认，对照 plan.md §5 的降级
+设计填"期望降级行为"）和 §5（不改清单核对，把 plan.md §6 的条目原样搬过来）
+补齐。
 ```
 
 **④ tasks.md 人工确认后，开始编码**
