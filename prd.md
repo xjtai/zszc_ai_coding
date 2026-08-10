@@ -70,34 +70,37 @@ related: [templates/spec.template.md, templates/plan.template.md, templates/task
 ### 2.1 需求分类（至少选择 2 类落地）
 
 ```mermaid
-mindmap
-  root((功能需求：需求分类<br/>至少选择 2 类))
-    售前咨询
-      商品参数咨询
-        商品价格
-        商品库存
-        商品功能特性
-      优惠活动咨询
-        是否有优惠
-      平台政策咨询
-        是否支持包邮
-        是否支持7天无理由退货
-      支付问题
-        分期免息
-        支付失败
-      更多意图
-    售后咨询
-      修改地址
-      物流查询
-      取消订单
-      故障报修
-      申请退货
-      发票申请
-      更多意图
-    闲聊
-      吃了吗
-      你是男的女的
-      更多意图
+flowchart TD
+    ROOT["功能需求：需求分类<br/>至少选择 2 类"]
+
+    ROOT --> PRE[售前咨询]
+    PRE --> PRE1[商品参数咨询]
+    PRE1 --> PRE1a[商品价格]
+    PRE1 --> PRE1b[商品库存]
+    PRE1 --> PRE1c[商品功能特性]
+    PRE --> PRE2[优惠活动咨询]
+    PRE2 --> PRE2a[是否有优惠]
+    PRE --> PRE3[平台政策咨询]
+    PRE3 --> PRE3a[是否支持包邮]
+    PRE3 --> PRE3b[是否支持7天无理由退货]
+    PRE --> PRE4[支付问题]
+    PRE4 --> PRE4a[分期免息]
+    PRE4 --> PRE4b[支付失败]
+    PRE --> PRE5[更多意图]
+
+    ROOT --> POST[售后咨询]
+    POST --> POST1[修改地址]
+    POST --> POST2[物流查询]
+    POST --> POST3[取消订单]
+    POST --> POST4[故障报修]
+    POST --> POST5[申请退货]
+    POST --> POST6[发票申请]
+    POST --> POST7[更多意图]
+
+    ROOT --> CHAT[闲聊]
+    CHAT --> CHAT1[吃了吗]
+    CHAT --> CHAT2[你是男的女的]
+    CHAT --> CHAT3[更多意图]
 ```
 
 - **必选**：售前咨询、售后咨询 —— 两类都要有真实可用的子智能体，不能只做路由不做处理。
