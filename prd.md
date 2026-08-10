@@ -196,7 +196,8 @@ tasks.md（草稿） → 人评审：纠错 + 补充 → tasks.md（确认）
 代码 → 基于 eval.md 评测验收（回填实测结果） → 部署发布
   │
   ▼
-Coding Agent 自动读取 spec/plan/tasks/eval 四份文档的评审记录
+Coding Agent 自动读取 spec/plan/tasks/eval 四份文档的评审记录，
+以及 eval.md 的门禁结果 / 遗留问题 / 判定理由
   │
   ▼
 learnings.md（草稿） → 人评审：纠错 + 补充 → learnings.md（确认）
@@ -210,12 +211,13 @@ learnings.md（草稿） → 人评审：纠错 + 补充 → learnings.md（确�
 | plan.md | `templates/plan.template.md` | Coding Agent 基于确认版 spec.md 起草，人评审确认 | 架构上怎么做？智能体怎么分、怎么兜底？ |
 | eval.md | `templates/eval.template.md` | §0/§1/§2/§4 基于确认版 spec.md，§3/§5 基于确认版 plan.md 补齐，人评审确认 | 怎么证明做对了？ |
 | tasks.md | `templates/tasks.template.md` | Coding Agent 基于确认版 plan.md 起草，人评审确认 | 拆成哪些可执行任务？完成标准是什么？ |
-| learnings.md | `templates/learnings.template.md` | Coding Agent 自动读取前四份文档的评审记录起草，人评审确认 | 这次做下来，学到了什么、下次怎么改进？ |
+| learnings.md | `templates/learnings.template.md` | Coding Agent 自动读取前四份文档的评审记录 + eval.md 的门禁结果/遗留问题/判定理由起草，人评审确认 | 这次做下来，学到了什么、下次怎么改进？ |
 
 几条硬规则：
 
 - **人不从零手写这五份文档，只做评审。** 每一轮都是：Coding Agent 基于已确认的上游文档起草下一份 → 人通读、直接在文件里改错的地方、补漏的地方 → 改动记一笔到该文档自己的"变更记录" → 状态改成"确认" → 才能进入下一步。跳过评审直接放行 Agent 的草稿，是这套流程里最容易出问题的地方。
-- **纠错和补充要记在对应文档自己的"变更记录"里，不用另外维护日志。** spec.md §9、plan.md §8、tasks.md 和 eval.md 末尾都有"变更记录"表；`learnings.md` 最后由 Coding Agent 自动读取这四处生成——记录及时、真实，`learnings.md` 才提炼得出东西。
+- **纠错和补充要记在对应文档自己的"变更记录"里，不用另外维护日志。** spec.md §9、plan.md §8、tasks.md 和 eval.md §8 都有"变更记录"表（eval.md 有两轮评审，都要记）；`learnings.md` 最后由 Coding Agent 自动读取这四处生成——记录及时、真实，`learnings.md` 才提炼得出东西。
+- **eval.md 贡献给 learnings.md 的不止评审记录。** §3/§4 里没通过的门禁、§6 的遗留问题与未覆盖场景、§7 判定"有条件通过"的理由，都会被 `learnings.md` 一并读走——这些是"实际测出来什么"，往往比"评审时改了什么"更能说明这次哪里做得不够。所以这几节即使结论不好看也要如实填。
 - **spec.md §2（消歧）和 §5（验收标准）不能省**，其余节可以按时间取舍——这两节省了，团队对"到底做什么"的理解分歧是静默的，谁都不会当场发现，评审时要重点盯。
 - **plan.md §6 的"不改清单"要认真评审**，并在 tasks.md 的执行期约束里重申一遍：这是防止 Coding Agent 编码时把验收标准、Golden Path 对话这类硬约束也顺手改掉的关键机制。
 - **eval.md 的测试用例部分（§0/§1/§2/§4）在 spec.md 确认后就起草、评审，不用等 plan.md / tasks.md**，这样编码开始前验收靶子早就定好了；但不改清单核对和降级测试部分（§3/§5）结构上依赖 plan.md，plan.md 确认后随手补齐即可，不是"整份 eval.md 都跟 plan.md 无关"。
@@ -234,7 +236,7 @@ learnings.md（草稿） → 人评审：纠错 + 补充 → learnings.md（确�
 | 0:55–2:15 | Coding Agent 按确认版 tasks.md 顺序编码实现，人工滚动 review、纠偏 | 代码 + `tasks.md`（勾选状态） |
 | 2:15–2:35 | 基于 eval.md 评测验收（含核对 plan.md §6 不改清单），回填实测结果，修复未达标项 | `eval.md`（实测结果 + 判定结论） |
 | 2:35–2:50 | 部署发布：把 demo 实际跑起来、确认可被现场访问，准备演示脚本 | 可运行的 demo |
-| 2:50–3:00 | Coding Agent 自动读取四份文档的评审记录生成 `learnings.md`，人评审确认 + 现场演示 + 讲师/助教点评 | `learnings.md`（确认） |
+| 2:50–3:00 | Coding Agent 自动读取四份文档的评审记录、以及 eval.md 的门禁结果/遗留问题/判定理由，生成 `learnings.md`，人评审确认 + 现场演示 + 讲师/助教点评 | `learnings.md`（确认） |
 
 ## 7. 验收参考对话（Golden Path）
 

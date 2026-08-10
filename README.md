@@ -21,7 +21,7 @@ flowchart TD
     T2 -->|Coding Agent: 编码实现| CODE[代码]
     CODE -->|基于 eval.md 评测验收| EVAL[eval.md 回填结果]
     EVAL --> DEPLOY[部署发布]
-    DEPLOY -->|Coding Agent: 自动读取<br/>spec/plan/tasks/eval 的评审记录| L1[learnings.md 草稿]
+    DEPLOY -->|Coding Agent: 自动读取四份文档的评审记录<br/>+ eval.md 的门禁结果/遗留问题/判定理由| L1[learnings.md 草稿]
     L1 -->|人评审: 纠错+补充| L2[learnings.md 确认]
 ```
 
@@ -105,9 +105,14 @@ eval.md 判定结论为"通过"或"有条件通过"后，请完成 tasks.md 的 
 **⑥ 部署完成后，生成 learnings.md**
 
 ```
-请自动读取 spec.md、plan.md、tasks.md、eval.md 各自的"变更记录"，提炼出
-L-01~L-05（问题/根因/修复/回流/可复用性），参照 templates/learnings.template.md
-的结构起草 learnings.md。挑真实发生、有具体落点的记录，不用凑够五条。
+请自动读取以下内容，提炼出 L-01~L-05（问题/根因/修复/回流/可复用性），参照
+templates/learnings.template.md 的结构起草 learnings.md：
+- spec.md §9、plan.md §8、tasks.md、eval.md §8 各自的"变更记录"（人评审时
+  纠错和补充了什么；eval.md 有两轮评审，都要读）
+- tasks.md 各 Task"说明"里记的最小合理假设
+- eval.md §3/§4 里没通过的门禁、§6 遗留问题与未覆盖场景、§7 判定理由
+后面这几项是"实际测出来什么"，比"评审时改了什么"更能说明问题，别漏掉。
+挑真实发生、有具体落点的记录，不用凑够五条。
 ```
 
 ## 目录结构
