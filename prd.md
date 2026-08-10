@@ -19,8 +19,8 @@ related: [templates/spec.template.md, templates/plan.template.md, templates/task
 <!-- ──────────────────────────────────────────────────────────────
   prd.md ｜ 企业级高可用多智能体客服 AI 智能体系统（培训实战需求）
 
-  为什么是这份文件      1.5 天工作坊的最后 0.5 天（3 小时）是分组实战：
-        学员要把前 1 天学到的 AI Coding / SDD 方法论，在一个"看得见、
+  为什么是这份文件      2 天工作坊的最后 0.5 天（3 小时）是分组实战：
+        学员要把前 1.5 天学到的 AI Coding / SDD 方法论，在一个"看得见、
         验得了"的题目上跑通一次完整闭环——从这份 PRD 出发，spec.md /
         plan.md / tasks.md 都由 Coding Agent 起草，人只做评审（纠错
         + 补充），再交给 Coding Agent 编码、评测、部署，最后把每一轮
@@ -38,9 +38,11 @@ related: [templates/spec.template.md, templates/plan.template.md, templates/task
 
   下一站      各小组依次产出（模板见 templates/ 目录），每份文档都是
         Coding Agent 先起草、人评审（纠错 + 补充）后才进入下一步：
-        spec.md（需求理解）→人评审→ plan.md（方案设计）→人评审→
-        tasks.md（任务拆解）→人评审→ Coding Agent 编码实现 → 基于
-        eval.md 评测验收 → 部署发布 → 把三轮评审记录沉淀进
+        spec.md（需求理解）→人评审→ 同时触发 plan.md（方案设计）和
+        eval.md（验收判定，直接基于 spec.md）两条分支 →人评审→
+        tasks.md（任务拆解，基于 plan.md）→人评审→ Coding Agent
+        编码实现 → 基于 eval.md 评测验收 → 部署发布 → Coding Agent
+        自动读取 spec/plan/tasks/eval 四份文档里的评审记录，生成
         learnings.md，供下次需求开发复用。完整流程说明见本文件 §5。
 ────────────────────────────────────────────────────────────── -->
 
@@ -50,7 +52,7 @@ related: [templates/spec.template.md, templates/plan.template.md, templates/task
 
 ## 1. 背景
 
-工作坊前 1 天完成了 AI Coding 方法论与工具训练，最后 0.5 天（3 小时）是分组实战：每组用 AI 编码工具，从一份 PRD 出发，独立完成一个**企业级高可用多智能体客服 AI 智能体系统**的需求理解、架构设计与实现，并现场演示。
+工作坊前 1.5 天完成了 AI Coding 方法论与工具训练，最后 0.5 天（3 小时）是分组实战：每组用 AI 编码工具，从一份 PRD 出发，独立完成一个**企业级高可用多智能体客服 AI 智能体系统**的需求理解、架构设计与实现，并现场演示。
 
 选客服场景的原因：
 
@@ -166,47 +168,51 @@ flowchart TD
   - `plan.md`（方案设计）
   - `tasks.md`（任务清单）
   - `eval.md`（测试用例 + 实测结果）
-  - `learnings.md`（经验沉淀，汇总三轮评审里的纠错与补充）
+  - `learnings.md`（经验沉淀，由 Coding Agent 自动读取前四份文档的评审记录生成）
 - 现场 3–5 分钟演示 + 简要讲解（重点讲清智能体怎么划分、路由怎么做、失败怎么兜底）。
 
 ## 5. 实战流程与产出物（SDD 五件套）
 
-本次实战不是"人讨论完架构直接开写"，也不是"人手写五份文档再叫 AI 编码"——**五份文档本身也是 Coding Agent 起草的**，人的工作是逐份评审：纠错、补充、确认，确认后才进入下一步：
+本次实战不是"人讨论完架构直接开写"，也不是"人手写五份文档再叫 AI 编码"——**五份文档全部由 Coding Agent 起草**，人的工作是逐份评审：纠错、补充、确认，确认后才进入下一步。`eval.md` 直接从 `spec.md` 派生（不用等 `plan.md`/`tasks.md`），跟 `plan.md` 是并行的两条分支；`learnings.md` 则是 Coding Agent 在最后自动读取前四份文档里的评审记录生成的，人不需要在过程中另外维护一份日志：
 
 ```
 prd.md（已给）
   │  Coding Agent：需求理解
   ▼
 spec.md（草稿） → 人评审：纠错 + 补充 → spec.md（确认）
-  │  Coding Agent：方案设计
-  ▼
-plan.md（草稿） → 人评审：纠错 + 补充 → plan.md（确认）
+  │                                         │
+  │ Coding Agent：方案设计                    │ Coding Agent：验收判定起草
+  ▼                                         ▼
+plan.md（草稿）→人评审→plan.md（确认）   eval.md（草稿）→人评审→eval.md（确认，用例部分）
   │  Coding Agent：任务设计
   ▼
 tasks.md（草稿） → 人评审：纠错 + 补充 → tasks.md（确认）
   │  Coding Agent：编码实现
   ▼
-代码 → 基于 eval.md 评测验收 → 部署发布
+代码 → 基于 eval.md 评测验收（回填实测结果） → 部署发布
   │
   ▼
-learnings.md（汇总三轮评审的纠错/补充 + 编码与部署中的新发现）
+Coding Agent 自动读取 spec/plan/tasks/eval 四份文档的评审记录
+  │
+  ▼
+learnings.md（草稿） → 人评审：纠错 + 补充 → learnings.md（确认）
 ```
 
 | 文档 | 模板 | 谁起草 | 核心问题 |
 |---|---|---|---|
-| spec.md | `templates/spec.template.md` | Coding Agent 起草，人评审确认 | 到底要做什么？验收口径怎么定？ |
-| plan.md | `templates/plan.template.md` | Coding Agent 起草，人评审确认 | 架构上怎么做？智能体怎么分、怎么兜底？ |
-| tasks.md | `templates/tasks.template.md` | Coding Agent 起草，人评审确认 | 拆成哪些可执行任务？完成标准是什么？ |
-| eval.md | `templates/eval.template.md` | Coding Agent 随 tasks.md 起草测试用例 | 怎么证明做对了？ |
-| learnings.md | `templates/learnings.template.md` | 人在每轮评审后即时记录，最后汇总 | 这次做下来，学到了什么、下次怎么改进？ |
+| spec.md | `templates/spec.template.md` | Coding Agent 基于 prd.md 起草，人评审确认 | 到底要做什么？验收口径怎么定？ |
+| plan.md | `templates/plan.template.md` | Coding Agent 基于确认版 spec.md 起草，人评审确认 | 架构上怎么做？智能体怎么分、怎么兜底？ |
+| eval.md | `templates/eval.template.md` | Coding Agent 基于确认版 spec.md 起草，人评审确认 | 怎么证明做对了？ |
+| tasks.md | `templates/tasks.template.md` | Coding Agent 基于确认版 plan.md 起草，人评审确认 | 拆成哪些可执行任务？完成标准是什么？ |
+| learnings.md | `templates/learnings.template.md` | Coding Agent 自动读取前四份文档的评审记录起草，人评审确认 | 这次做下来，学到了什么、下次怎么改进？ |
 
 几条硬规则：
 
-- **人不从零手写这五份文档，只做评审。** 每一轮都是：Coding Agent 基于上一份已确认的文档起草下一份 → 人通读、直接在文件里改错的地方、补漏的地方 → 改动记一笔到 learnings.md → 状态改成"确认" → 才能进入下一步。跳过评审直接放行 Agent 的草稿，是这套流程里最容易出问题的地方。
-- **纠错和补充要当场记进 learnings.md，不要留到最后回忆。** 三轮评审（spec/plan/tasks）各自产生的修正，就是 learnings.md 的主要素材来源；等到最后一起补，大概率想不全。
+- **人不从零手写这五份文档，只做评审。** 每一轮都是：Coding Agent 基于已确认的上游文档起草下一份 → 人通读、直接在文件里改错的地方、补漏的地方 → 改动记一笔到该文档自己的"变更记录" → 状态改成"确认" → 才能进入下一步。跳过评审直接放行 Agent 的草稿，是这套流程里最容易出问题的地方。
+- **纠错和补充要记在对应文档自己的"变更记录"里，不用另外维护日志。** spec.md §9、plan.md §8、tasks.md 和 eval.md 末尾都有"变更记录"表；`learnings.md` 最后由 Coding Agent 自动读取这四处生成——记录及时、真实，`learnings.md` 才提炼得出东西。
 - **spec.md §2（消歧）和 §5（验收标准）不能省**，其余节可以按时间取舍——这两节省了，团队对"到底做什么"的理解分歧是静默的，谁都不会当场发现，评审时要重点盯。
 - **plan.md §6 的"不改清单"要认真评审**，并在 tasks.md 的执行期约束里重申一遍：这是防止 Coding Agent 编码时把验收标准、Golden Path 对话这类硬约束也顺手改掉的关键机制。
-- **eval.md 的测试用例要在编码开始前定好**，编码完成后再回填实测结果；不要等代码写完了才现想怎么测。
+- **eval.md 在 spec.md 确认后就起草、评审，不用等 plan.md / tasks.md。** 这样编码开始前，验收靶子早就定好了，不是等代码写完才现想怎么测。
 - **部署发布是独立的一步，不能省。** 评测通过不等于能演示——把 demo 实际跑起来、确认能被现场访问，才算完成。
 - 各模板的 HTML 注释里都写了"这一步该回答什么问题、不该回答什么问题、评审时要重点看什么"，评审前先看一遍。
 
@@ -215,13 +221,14 @@ learnings.md（汇总三轮评审的纠错/补充 + 编码与部署中的新发�
 | 时间 | 环节 | 对应产出 |
 |---|---|---|
 | 0:00–0:10 | 读 prd.md，组内对齐要选哪些需求分类；让 Coding Agent 起草 spec.md | `spec.md`（草稿） |
-| 0:10–0:25 | 评审 spec.md：纠错 + 补充，改动记进 `learnings.md`；确认后让 Agent 起草 plan.md | `spec.md`（确认）、`plan.md`（草稿）、`learnings.md` |
-| 0:25–0:40 | 评审 plan.md：纠错 + 补充，记进 `learnings.md`；确认后让 Agent 起草 tasks.md（含 eval.md 测试用例草稿） | `plan.md`（确认）、`tasks.md`（草稿）、`learnings.md` |
-| 0:40–0:55 | 评审 tasks.md 与 eval.md 用例草稿：纠错 + 补充，记进 `learnings.md` | `tasks.md`（确认）、`eval.md`（用例部分）、`learnings.md` |
+| 0:10–0:20 | 评审 spec.md：纠错 + 补充，改动记进 spec.md §9 变更记录；确认后同时让 Agent 起草 plan.md 和 eval.md | `spec.md`（确认）、`plan.md`（草稿）、`eval.md`（草稿） |
+| 0:20–0:30 | 评审 eval.md 测试用例草稿：纠错 + 补充，记进 eval.md 变更记录 | `eval.md`（确认） |
+| 0:30–0:45 | 评审 plan.md：纠错 + 补充，记进 plan.md §8 变更记录；确认后让 Agent 起草 tasks.md | `plan.md`（确认）、`tasks.md`（草稿） |
+| 0:45–0:55 | 评审 tasks.md：纠错 + 补充，记进 tasks.md 变更记录 | `tasks.md`（确认） |
 | 0:55–2:15 | Coding Agent 按确认版 tasks.md 顺序编码实现，人工滚动 review、纠偏 | 代码 + `tasks.md`（勾选状态） |
 | 2:15–2:35 | 基于 eval.md 评测验收，回填实测结果，修复未达标项 | `eval.md`（实测结果 + 判定结论） |
 | 2:35–2:50 | 部署发布：把 demo 实际跑起来、确认可被现场访问，准备演示脚本 | 可运行的 demo |
-| 2:50–3:00 | 汇总 `learnings.md`（三轮评审记录 + 部署中的新发现）+ 现场演示 + 讲师/助教点评 | `learnings.md`（完整版） |
+| 2:50–3:00 | Coding Agent 自动读取四份文档的评审记录生成 `learnings.md`，人评审确认 + 现场演示 + 讲师/助教点评 | `learnings.md`（确认） |
 
 ## 7. 验收参考对话（Golden Path）
 

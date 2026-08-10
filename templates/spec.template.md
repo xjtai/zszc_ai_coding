@@ -13,7 +13,7 @@ updated_at:
 prd_ref: ../prd.md
 tier: medium           # light / medium / heavy，见下方"档位怎么定"
 knowledge_refs: []      # 本次实战没有真实四层知识库，通常留空；引用了 prd.md 之外的资料才登记在这里
-related_specs: [plan.md]
+related_specs: [plan.md, eval.md]
 score: {}               # 无自动评分脚本，留空即可
 ---
 
@@ -28,9 +28,11 @@ score: {}               # 无自动评分脚本，留空即可
 
   谁写、谁评审      这份文件由 Coding Agent 基于 prd.md 起草，人**不
         从零手写**，只做评审：通读一遍，直接在文件里改错的地方、补
-        漏的地方，把每处改动记一笔到 learnings.md，再把 status 改成
+        漏的地方，把每处改动记一笔到 §9 变更记录，再把 status 改成
         "已确认"。评审时优先检查 §2 和 §5——这两节写错或写漏，后面
-        plan.md / tasks.md 会跟着错，且不会有任何报错提示你。
+        plan.md / eval.md / tasks.md 会跟着错，且不会有任何报错提示
+        你。§9 记的这些改动不用另外整理，后面 learnings.md 会由
+        Coding Agent 自动读取这里生成。
 
   字段与结构说明      knowledge_refs / score 等字段假设有真实的四层
         知识库和自动评分脚本，本次工作坊没有对应基础设施，留空即可，

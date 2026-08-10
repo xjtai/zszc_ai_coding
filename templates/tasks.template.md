@@ -38,7 +38,7 @@ score: {}
 ## 执行期约束（每个 Task 执行前注入）
 
 - 不允许修改 plan.md §6"不改清单"里列出的内容。
-- 遇到 spec.md / plan.md 没覆盖的情况，按最小合理假设处理，并把假设记在对应任务的"说明"里（供 learnings.md 使用），不要擅自扩大范围。
+- 遇到 spec.md / plan.md 没覆盖的情况，按最小合理假设处理，并把假设记在对应任务的"说明"里，同时补一行到本文件末尾的"变更记录"（供最后 learnings.md 自动汇总用），不要擅自扩大范围。
 - 每完成一个 Task，先跑该 Task 的 verify 命令，通过了再进入下一个。
 
 ## 任务清单
@@ -107,8 +107,8 @@ score: {}
 
 - 依赖：T-06
 - 负责人：
-- 产出物：可被现场访问的 demo（启动命令/访问方式）、learnings.md 完成、tasks.md 全部状态更新
-- 验收口径：demo 能实际跑起来并演示；learnings.md 汇总了三轮评审（spec/plan/tasks）的纠错与补充
+- 产出物：可被现场访问的 demo（启动命令/访问方式）、Coding Agent 自动生成并经人确认的 learnings.md、tasks.md 全部状态更新
+- 验收口径：demo 能实际跑起来并演示；learnings.md 已由 Coding Agent 读取 spec/plan/tasks/eval 四份文档的变更记录生成，人评审确认
 - verify 命令：
 - 状态：⬜
 - 说明：
@@ -118,7 +118,7 @@ score: {}
 - [ ] T-01 ~ T-07 全部状态为 ✅
 - [ ] eval.md 的判定结论（§7）不是"不通过"
 - [ ] demo 已部署发布，可被现场访问
-- [ ] learnings.md 至少写满 L-01 ~ L-03，且能看出分别来自哪一轮评审
+- [ ] learnings.md 已由 Coding Agent 生成并经人评审确认，至少有 L-01 ~ L-03
 
 ## 变更记录
 
@@ -130,14 +130,14 @@ score: {}
 
 ### 给 Coding Agent 的执行说明
 
-复制到你们与 Coding Agent 对话的第一条 prompt 里，按需修改（README.md 里还有起草 spec.md / plan.md / tasks.md 这三步各自的 prompt）：
+复制到你们与 Coding Agent 对话的第一条 prompt 里，按需修改（README.md 里还有起草 spec.md / plan.md / eval.md / tasks.md 各步骤各自的 prompt）：
 
 ```
-请阅读 spec.md、plan.md、tasks.md 三份文件（均为已确认版）。严格按 tasks.md
-的 T-01 到 T-07 顺序实现，每完成一项跑一下对应的 verify 命令，通过后把状态
-改成 ✅ 并在"说明"里简述实现方式。遇到 spec.md / plan.md 没覆盖的情况，按
-最小合理假设处理，把假设记下来，不要擅自扩大范围或引入未提及的新功能，且
+请阅读 spec.md、plan.md、tasks.md、eval.md 四份文件（均为已确认版）。严格按
+tasks.md 的 T-01 到 T-06 顺序实现，每完成一项跑一下对应的 verify 命令，通过后
+把状态改成 ✅ 并在"说明"里简述实现方式。遇到 spec.md / plan.md 没覆盖的情况，
+按最小合理假设处理，把假设记下来，不要擅自扩大范围或引入未提及的新功能，且
 不允许改动 plan.md §6"不改清单"里列出的内容。T-06 完成后把测试结果回填进
-eval.md 并给出判定结论；T-07 把 demo 部署起来，并把三轮评审记录汇总进
-learnings.md。
+eval.md 并给出判定结论；T-07 把 demo 部署起来（部署完成后再用 README.md 里
+的 prompt ⑥ 生成 learnings.md）。
 ```

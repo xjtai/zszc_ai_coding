@@ -4,23 +4,26 @@
 
 ## 这是什么
 
-1.5 天工作坊的最后 3 小时，每组从 `prd.md` 出发，完整走一遍 SDD（Spec-Driven Development）链路。**五份产出文档本身也是 Coding Agent 起草的**，人不从零手写，只做评审（纠错 + 补充），确认后再进入下一步：
+2 天工作坊的最后 3 小时，每组从 `prd.md` 出发，完整走一遍 SDD（Spec-Driven Development）链路。**五份产出文档全部由 Coding Agent 起草**，人不从零手写，只做评审（纠错 + 补充），确认后再进入下一步：
 
 ```mermaid
 flowchart TD
     P[prd.md<br/>已给] -->|Coding Agent: 需求理解| S1[spec.md 草稿]
     S1 -->|人评审: 纠错+补充| S2[spec.md 确认]
     S2 -->|Coding Agent: 方案设计| PL1[plan.md 草稿]
+    S2 -->|Coding Agent: 验收判定起草| EV1[eval.md 草稿]
     PL1 -->|人评审: 纠错+补充| PL2[plan.md 确认]
+    EV1 -->|人评审: 纠错+补充| EV2[eval.md 确认<br/>用例部分]
     PL2 -->|Coding Agent: 任务设计| T1[tasks.md 草稿]
     T1 -->|人评审: 纠错+补充| T2[tasks.md 确认]
     T2 -->|Coding Agent: 编码实现| CODE[代码]
     CODE -->|基于 eval.md 评测验收| EVAL[eval.md 回填结果]
     EVAL --> DEPLOY[部署发布]
-    DEPLOY --> LEARN[learnings.md<br/>汇总三轮评审 + 部署新发现]
+    DEPLOY -->|Coding Agent: 自动读取<br/>spec/plan/tasks/eval 的评审记录| L1[learnings.md 草稿]
+    L1 -->|人评审: 纠错+补充| L2[learnings.md 确认]
 ```
 
-每一轮评审的纠错和补充**当场记进 `learnings.md`**，不要留到最后凭记忆补——三轮评审是 `learnings.md` 最主要的素材来源。
+`eval.md` 直接从确认版的 `spec.md` 派生，跟 `plan.md` 是并行的两条分支，不用等 `plan.md`/`tasks.md` 存在。每一轮评审的纠错和补充，记在对应文档自己的"变更记录"里就够了——`learnings.md` 最后由 Coding Agent 自动读取这四处生成，人不需要在过程中另外维护一份日志。
 
 ## 怎么开始
 
@@ -35,11 +38,11 @@ flowchart TD
    templates/learnings.template.md → learnings.md
    ```
 
-3. 按下面的分阶段 prompt，让 Coding Agent 依次起草 `spec.md` → `plan.md` → `tasks.md`，每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查），改完再进入下一阶段。
+3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`，两者都确认后再起草 `tasks.md`。每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查，纠错和补充记进该文档自己的"变更记录"），改完再进入下一阶段。
 4. `tasks.md` 确认后，让 Coding Agent 按 T-01→T-07 顺序编码实现。
 5. T-06：按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`。
 6. 部署发布：把 demo 实际跑起来，确认能被现场访问。
-7. T-07：汇总 `learnings.md`（三轮评审记录 + 部署中的新发现），准备现场演示。
+7. T-07：让 Coding Agent 自动读取 `spec.md`/`plan.md`/`tasks.md`/`eval.md` 的变更记录生成 `learnings.md`，人评审确认，准备现场演示。
 
 ## 怎么喂给 Coding Agent（分阶段 prompt）
 
@@ -52,7 +55,7 @@ US-编号）不能省。不要涉及架构设计（用几个智能体、用什�
 plan.md 的事。
 ```
 
-**② spec.md 人工确认后，起草 plan.md**
+**② spec.md 人工确认后，并行起草 plan.md 和 eval.md**
 
 ```
 spec.md 已经过人工评审确认。请阅读确认版的 spec.md 和 prd.md，做方案设计，
@@ -60,31 +63,45 @@ spec.md 已经过人工评审确认。请阅读确认版的 spec.md 和 prd.md�
 列清楚哪些是硬约束、编码时不能碰。
 ```
 
-**③ plan.md 人工确认后，起草 tasks.md（含 eval.md 用例）**
+```
+spec.md 已经过人工评审确认。请阅读确认版的 spec.md，做验收判定设计，参照
+templates/eval.template.md 起草 eval.md 的 §0、§1（AC 覆盖矩阵 + §1.1 路由
+准确率测试用例，至少 20 条，对照 spec.md §5 每条 US 编号），不用等 plan.md /
+tasks.md 存在。§2 及之后的章节留到编码完成后再回填。
+```
+
+**③ plan.md 人工确认后，起草 tasks.md**
 
 ```
 plan.md 已经过人工评审确认。请阅读确认版的 plan.md，做任务拆解，参照
 templates/tasks.template.md 的 T-01~T-07 结构起草 tasks.md，每项要有明确的
-verify 命令。同时参照 templates/eval.template.md §1.1，先写出 ≥20 条路由
-准确率测试用例（编码前的验收靶子，不用等代码写完再想）。
+verify 命令。
 ```
 
 **④ tasks.md 人工确认后，开始编码**
 
 ```
-tasks.md 已经过人工评审确认。请严格按 T-01 到 T-07 顺序实现，每完成一项跑
-一下对应的 verify 命令，通过后把状态改成 ✅ 并在"说明"里简述实现方式。遇到
-spec.md / plan.md 没覆盖的情况，按最小合理假设处理并说明假设，不要擅自扩大
-范围，且不允许改动 plan.md §6"不改清单"里列出的内容。T-06 完成后把测试结果
-回填进 eval.md 并给出判定结论。
+spec.md、plan.md、tasks.md、eval.md 均已经过人工评审确认。请严格按 tasks.md
+的 T-01 到 T-06 顺序实现，每完成一项跑一下对应的 verify 命令，通过后把状态
+改成 ✅ 并在"说明"里简述实现方式。遇到 spec.md / plan.md 没覆盖的情况，按
+最小合理假设处理并说明假设，记进对应文档的"变更记录"，不要擅自扩大范围，且
+不允许改动 plan.md §6"不改清单"里列出的内容。T-06 完成后把测试结果回填进
+eval.md 并给出判定结论。
 ```
 
-**⑤ eval.md 判定通过后，部署发布 + 结项**
+**⑤ eval.md 判定通过后，部署发布**
 
 ```
-eval.md 判定结论为"通过"或"有条件通过"后，请把 demo 跑起来（给出启动命令/
-访问方式），并汇总本次三轮评审（spec.md/plan.md/tasks.md）里记录的纠错与
-补充，连同编码、评测阶段发现的问题，整理进 learnings.md 的 L-01~L-05。
+eval.md 判定结论为"通过"或"有条件通过"后，请完成 tasks.md 的 T-07：把 demo
+跑起来，给出启动命令/访问方式。
+```
+
+**⑥ 部署完成后，生成 learnings.md**
+
+```
+请自动读取 spec.md、plan.md、tasks.md、eval.md 各自的"变更记录"，提炼出
+L-01~L-05（问题/根因/修复/回流/可复用性），参照 templates/learnings.template.md
+的结构起草 learnings.md。挑真实发生、有具体落点的记录，不用凑够五条。
 ```
 
 ## 目录结构
