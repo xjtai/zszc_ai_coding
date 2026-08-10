@@ -19,8 +19,6 @@ flowchart LR
 
 代码由 Coding Agent 依据 `spec.md` / `plan.md` / `tasks.md` 生成，不是人工从零手写——这三份文档写得够清楚，是编码环节能顺利跑起来的前提。
 
-五份模板的节结构、frontmatter 字段、编号规则（`spec.md` 的 US-xx、`tasks.md` 的 T-xx、`learnings.md` 的 L-xx），参照的是 [`xjtai/KnowledgeBase`](https://github.com/xjtai/KnowledgeBase) 仓库 `docs/sdd/` 下的真实示例，不是临时发明的格式——这次练的写法，回到日常工作里是通用的。原示例假设有已上线的代码库、下游系统和四层知识库，本次是从零搭建，各模板顶部的注释里都标了对应做了哪些简化（`knowledge_refs`/`score` 留空即可，"下游回归确认"改成"系统级回归确认"等），照着模板注释走就行，不用回去比对原仓库。
-
 ## 怎么开始
 
 1. 通读 [`prd.md`](./prd.md)，尤其是 §2（需求分类，至少选 2 类）、§4（验收标准）、§5（五份产出文档的定义与硬规则）。

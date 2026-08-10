@@ -181,8 +181,6 @@ flowchart TD
 | eval.md | `templates/eval.template.md` | 怎么证明做对了？ | 测试用例：编码前先写；实测结果：编码后回填 |
 | learnings.md | `templates/learnings.template.md` | 这次做下来，学到了什么、下次怎么改进？ | 编码与验收完成之后 |
 
-五份模板的节结构、frontmatter 字段、Task/US/L-0x 编号规则，参照的是 [`xjtai/KnowledgeBase`](https://github.com/xjtai/KnowledgeBase) 仓库 `docs/sdd/` 下的真实示例（订单删除案例），字段名尽量原样保留，方便这次练的方法论直接迁移回日常工作。但原示例假设"已有代码库、有下游系统、有四层知识库、有 CI 评分脚本"，这些在本次从零搭建的场景里不存在——各模板顶部的注释里都标注了哪些节/字段做了对应简化（例如 `knowledge_refs`/`score` 留空即可，"下游回归确认"改写成"系统级回归确认"）。
-
 几条硬规则：
 
 - **代码由 Coding Agent 基于 spec.md / plan.md / tasks.md 生成，不是人工从零手写。** 人的角色是把这三份文档写清楚、review Agent 的产出、纠正偏差——写文档本身也是在练习"怎么把需求和设计讲清楚让 AI 听得懂"。
@@ -190,7 +188,7 @@ flowchart TD
 - **plan.md §6 的"不改清单"要认真写**，并在 tasks.md 的执行期约束里重申一遍：这是防止 Coding Agent 把验收标准、Golden Path 对话这类硬约束也顺手改掉的关键机制。
 - **eval.md 的测试用例要在编码开始前写好**，编码完成后再回填实测结果；不要等代码写完了才现想怎么测。
 - **learnings.md 不是可选项。** 代码是这次实战的载体，方法论才是要带走的东西。
-- 各模板的 HTML 注释里都写了"这一步该回答什么问题、不该回答什么问题、跟原示例比做了什么简化"，写之前先看一遍，避免 spec.md 里写起了智能体划分（那是 plan.md 的事）。
+- 各模板的 HTML 注释里都写了"这一步该回答什么问题、不该回答什么问题"，写之前先看一遍，避免 spec.md 里写起了智能体划分（那是 plan.md 的事）。
 
 ## 6. 时间安排（3 小时参考节奏）
 
