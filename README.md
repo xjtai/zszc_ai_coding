@@ -18,7 +18,7 @@ flowchart TD
     PL2 -->|Coding Agent: 任务设计| T1[tasks.md 草稿]
     EV3 -->|人评审: 纠错+补充| EV4[eval.md 全部确认]
     T1 -->|人评审: 纠错+补充| T2[tasks.md 确认]
-    T2 -->|Coding Agent: 编码实现| CODE[代码]
+    T2 -->|Coding Agent: 编码实现| CODE["代码（写在 src/ 下）"]
     CODE -->|基于 eval.md 评测验收| EVAL[eval.md 回填结果]
     EVAL --> DEPLOY[部署发布]
     DEPLOY -->|Coding Agent: 自动读取四份文档的评审记录<br/>+ eval.md 的门禁结果/遗留问题/判定理由| L1[learnings.md 草稿]
@@ -42,10 +42,10 @@ flowchart TD
 
 3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`（此时 `eval.md` 只能先写测试用例部分 §0/§1/§2/§4）。每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查，纠错和补充记进该文档自己的"变更记录"），改完再进入下一阶段。
 4. `plan.md` 确认后，让 Coding Agent 补齐 `eval.md` 的 §3/§5（依赖 plan.md 的降级设计和不改清单），同时起草 `tasks.md`；两者评审确认。
-5. `tasks.md` 确认后，让 Coding Agent 按 T-01→T-07 顺序编码实现。
-6. T-06：按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`。
-7. 部署发布：把 demo 实际跑起来，确认能被现场访问。
-8. T-07：让 Coding Agent 自动读取 `spec.md`/`plan.md`/`tasks.md`/`eval.md` 的变更记录生成 `learnings.md`，人评审确认，准备现场演示。
+5. `tasks.md` 确认后，让 Coding Agent 按 T-01→T-05 顺序编码实现，**代码写在 `src/` 下**，人工滚动 review、纠偏。
+6. T-06：按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`，人签判定结论。
+7. T-07 上半段：部署发布——把 demo 实际跑起来，确认照着 `src/README.md` 能被现场访问。
+8. T-07 下半段：让 Coding Agent 自动读取 `spec.md`/`plan.md`/`tasks.md`/`eval.md` 的变更记录（以及 `eval.md` 的门禁结果、遗留问题、判定理由）生成 `learnings.md`，人评审确认，准备现场演示。
 
 ## 怎么喂给 Coding Agent（分阶段 prompt）
 
@@ -89,17 +89,23 @@ verify 命令。同时把 eval.md 的 §3（系统级回归确认，对照 plan.
 ```
 spec.md、plan.md、tasks.md、eval.md 均已经过人工评审确认。请严格按 tasks.md
 的 T-01 到 T-06 顺序实现，每完成一项跑一下对应的 verify 命令，通过后把状态
-改成 ✅ 并在"说明"里简述实现方式。遇到 spec.md / plan.md 没覆盖的情况，按
-最小合理假设处理并说明假设，记进对应文档的"变更记录"，不要擅自扩大范围，且
-不允许改动 plan.md §6"不改清单"里列出的内容。T-06 完成后把测试结果回填进
-eval.md 并给出判定结论。
+改成 ✅ 并在"说明"里简述实现方式。
+
+代码一律写在 src/ 目录下（结构按 plan.md §3 定的来），五份产出文档留在仓库
+根目录不要动；T-01 要同时把依赖安装和启动命令写进 src/README.md。不要把真实
+的模型 API Key 提交进仓库，用环境变量。
+
+遇到 spec.md / plan.md 没覆盖的情况，按最小合理假设处理并说明假设，记进对应
+文档的"变更记录"，不要擅自扩大范围，且不允许改动 plan.md §6"不改清单"里列出
+的内容。T-06 完成后把测试结果回填进 eval.md 并给出判定结论。
 ```
 
 **⑤ eval.md 判定通过后，部署发布**
 
 ```
 eval.md 判定结论为"通过"或"有条件通过"后，请完成 tasks.md 的 T-07：把 demo
-跑起来，给出启动命令/访问方式。
+跑起来，并确认 src/README.md 里的启动说明是最新的——评委会照着它现场启动，
+所以要保证别人 clone 下来能按说明一次跑通。
 ```
 
 **⑥ 部署完成后，生成 learnings.md**
