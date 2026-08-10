@@ -267,7 +267,7 @@ sequenceDiagram
 
 ## 8. 技术栈说明（不做限定）
 
-参考素材使用的是 LlamaIndex ReAct 架构，但本次实战**不限定框架**——用 LangGraph、AutoGen、自研 Router + Function Calling，或任何小组熟悉且能在 3 小时内跑通的方案都可以。评审只看第 4 节的验收标准是否达成，不对技术选型加分或扣分。
+参考素材使用的是 ReAct 架构，但本次实战**不限定框架**——用 Spring AI、Spring AI Alibaba、LangChain、LangGraph、AutoGen、自研 Router + Function Calling，或任何小组熟悉且能在 3 小时内跑通的方案都可以。评审只看第 4 节的验收标准是否达成，不对技术选型加分或扣分。
 
 ---
 

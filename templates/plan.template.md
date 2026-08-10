@@ -49,7 +49,7 @@ score: {}
 ## 2. 方案选型（含被否决方案）
 
 - 路由方式：LLM 分类 / 规则匹配 / 混合——选哪个？为什么？被否决的方案是什么、为什么否决？
-- 多智能体框架：LlamaIndex / LangGraph / AutoGen / 自研——选哪个？为什么？
+- 多智能体框架：Spring AI / Spring AI Alibaba / LangChain / LangGraph / AutoGen / 自研 Router + Function Calling——选哪个？为什么？
 
 ## 3. 数据模型
 
