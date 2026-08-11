@@ -33,7 +33,9 @@ src/
 T-01 完成时就要保证：**别人 clone 下来照着说明能跑起来**。把启动方式直接覆盖写进本文件（`src/README.md`），至少包含：
 
 - 依赖怎么装
-- 环境变量怎么配：仓库根目录有 `.env.example`，`cp .env.example .env` 后填真实值。**`.env` 已被 `.gitignore` 挡掉，别绕过它把真 Key 提交上去**——推上远端后撤销 Key 是唯一补救。
+- 环境变量怎么配：仓库根目录有 `.env.example`，`cp .env.example .env` 后填真实值。模型 Key 由讲师现场分发，**不在仓库里**。
+  - `.env` 已被 `.gitignore` 挡掉，别绕过它（别 `git add -f`、别把 Key 写进代码或写进 `.env.example`）——Key 一旦推上远端，撤销重发是唯一补救。
+  - 代码里统一 `os.getenv("DEEPSEEK_API_KEY")` 这样读，不要硬编码，也不要打印到日志里（"执行流程"面板要展示工具调用参数，注意别把 Key 一起打出来）。
 - 怎么启动、启动后访问哪个地址
 - `eval.md` 里的测试怎么跑
 
