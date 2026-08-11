@@ -103,8 +103,9 @@ spec.md、plan.md、tasks.md、eval.md 均已经过人工评审确认。请严�
 改成 ✅ 并在"说明"里简述实现方式。
 
 代码一律写在 src/ 目录下（结构按 plan.md §3 定的来），五份产出文档留在仓库
-根目录不要动；T-01 要同时把依赖安装和启动命令写进 src/README.md。不要把真实
-的模型 API Key 提交进仓库，用环境变量。
+根目录不要动；T-01 要同时把依赖安装和启动命令写进 src/README.md。密钥统一走
+根目录的 .env（已在 .gitignore 里），需要新增配置项就同步补进 .env.example，
+任何情况下都不要把真实 Key 写进代码或提交进仓库。
 
 遇到 spec.md / plan.md 没覆盖的情况，按最小合理假设处理并说明假设，记进对应
 文档的"变更记录"，不要擅自扩大范围，且不允许改动 plan.md §6"不改清单"里列出
@@ -144,6 +145,8 @@ templates/                      五份产出文档的结构模板（Coding Agent
   eval.template.md
   learnings.template.md
 src/                            代码放这里（内部结构各组自己定，见 src/README.md）
+.env.example                    环境变量模板：cp .env.example .env 后填真实 Key
+.gitignore                      已挡掉 .env / venv / target 等，别绕过它提交密钥
 
 你们组做完之后，仓库根目录还会多出这五份文档：
 spec.md  plan.md  tasks.md  eval.md  learnings.md
