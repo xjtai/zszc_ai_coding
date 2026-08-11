@@ -1,5 +1,5 @@
 ---
-specId: SPEC-<组名>-001
+specId: LEARNINGS-<组名>-001
 type: learnings
 parent_spec: spec.md
 plan_ref: plan.md

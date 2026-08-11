@@ -1,5 +1,5 @@
 ---
-specId: SPEC-<组名>-001
+specId: TASKS-<组名>-001
 type: tasks
 parent_spec: spec.md
 plan_ref: plan.md
@@ -22,6 +22,9 @@ score: {}
         完成，而是靠一条能跑的命令/一个能复现的操作来自证——这也是
         为什么最后两个任务分别是"跑完全部验证"和"部署发布与结项
         回写"，验收、部署和复盘本身也是任务，不是任务清单之外的事。
+        T-01 / T-06 / T-07 给了示例，其余几项照着补。**别写"手工
+        验证""看一下对不对"**——那等于没有 verify；实在没法用一条
+        命令自证的（比如 T-07），就写成一个别人能照做一遍的操作。
 
   谁写、谁评审      这份文件由 Coding Agent 基于**已确认版**的
         plan.md 起草（T-01~T-07 的任务划分 + 每项的 verify 命令），
@@ -49,7 +52,7 @@ score: {}
 - 负责人：
 - 产出物：`src/` 下可运行的项目骨架，`src/README.md` 写清依赖安装与启动命令
 - 验收口径：别人 clone 下来照着 `src/README.md` 能跑起来
-- verify 命令：
+- verify 命令：示例 —— `cd src && pip install -r requirements.txt && python app.py`，能启动且访问首页不报错（Java 组换成 `mvn spring-boot:run`）
 - 状态：⬜
 - 说明：
 
@@ -88,7 +91,7 @@ score: {}
 - 依赖：T-03, T-04
 - 负责人：
 - 产出物：mock 工具 + 故障注入开关 + 执行过程记录（日志/面板）
-- 验收口径：对照 spec.md US-03 高可用降级
+- 验收口径：对照 spec.md US-03（高可用降级）与 US-05（执行过程可解释）
 - verify 命令：
 - 状态：⬜
 - 说明：
@@ -99,7 +102,7 @@ score: {}
 - 负责人：
 - 产出物：eval.md 已回填实测结果
 - 验收口径：eval.md 全部门禁通过（或明确记录未通过项）
-- verify 命令：
+- verify 命令：示例 —— `cd src && python -m tests.run_eval`，输出准确率数字（对照 eval.md §1.1 的 ≥20 条用例逐条判定，不要人工一条条试）
 - 状态：⬜
 - 说明：
 
@@ -109,7 +112,7 @@ score: {}
 - 负责人：
 - 产出物：可被现场访问的 demo（启动命令/访问方式已写进 `src/README.md`）、Coding Agent 自动生成并经人确认的 learnings.md、tasks.md 全部状态更新
 - 验收口径：照着 `src/README.md` 能把 demo 实际跑起来并演示；learnings.md 已由 Coding Agent 读取 spec/plan/tasks/eval 四份文档的变更记录生成，人评审确认
-- verify 命令：
+- verify 命令：这一项没法用一条命令自证，改成一次可复现的操作 —— **换一台机器（或换个干净目录）重新 clone，只照着 `src/README.md` 走一遍，能启动并跑通 Golden Path**。组内写代码那台机器上"能跑"不算数，漏写的依赖和环境变量只有这样才暴露得出来。
 - 状态：⬜
 - 说明：
 

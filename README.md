@@ -42,8 +42,8 @@ flowchart TD
 
 3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`（此时 `eval.md` 只能先写测试用例部分 §0/§1/§2/§4）。每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查，纠错和补充记进该文档自己的"变更记录"），改完再进入下一阶段。
 4. `plan.md` 确认后，让 Coding Agent 补齐 `eval.md` 的 §3/§5（依赖 plan.md 的降级设计和不改清单），同时起草 `tasks.md`；两者评审确认。
-5. `tasks.md` 确认后，让 Coding Agent 按 T-01→T-05 顺序编码实现，**代码写在 `src/` 下**，人工滚动 review、纠偏。
-6. T-06：按 `eval.md` 定义的用例跑测试，把结果回填进 `eval.md`，人签判定结论。
+5. `tasks.md` 确认后，用 prompt ④ 让 Coding Agent 按 T-01→T-06 连续执行：T-01~T-05 编码实现（**代码写在 `src/` 下**），T-06 跑测试并把结果回填进 `eval.md`。人工滚动 review、纠偏。
+6. `eval.md` §7 的判定结论由人来签（`verdict_by` 填人名），判"通过"或"有条件通过"才进入下一步。
 7. T-07 上半段：部署发布——把 demo 实际跑起来，确认照着 `src/README.md` 能被现场访问。
 8. T-07 下半段：让 Coding Agent 自动读取 `spec.md`/`plan.md`/`tasks.md`/`eval.md` 的变更记录（以及 `eval.md` 的门禁结果、遗留问题、判定理由）生成 `learnings.md`，人评审确认，准备现场演示。
 
