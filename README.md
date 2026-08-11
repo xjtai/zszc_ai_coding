@@ -40,7 +40,7 @@ flowchart TD
    templates/learnings.template.md → learnings.md
    ```
 
-3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`（此时 `eval.md` 只能先写测试用例部分 §0/§1/§2/§4）。每一份起草完都先人工评审（对照 `spec.md` §2/§5 这类不能省的节重点检查，纠错和补充记进该文档自己的"变更记录"），改完再进入下一阶段。
+3. 按下面的分阶段 prompt，让 Coding Agent 起草 `spec.md`，评审确认后并行起草 `plan.md` 和 `eval.md`（此时 `eval.md` 只能先写测试用例部分 §0/§1/§2/§4）。每一份起草完都先人工评审：重点盯 `spec.md` §2/§5 有没有写错，以及 §2.1、§3、`plan.md` §6 后面那几张**盲区表**——Agent 拿不准的地方都列在那儿等你们勾选裁决，那是评审时最该花时间的对象。纠错和补充记进该文档自己的"变更记录"，改完再进入下一阶段。
 4. `plan.md` 确认后，让 Coding Agent 补齐 `eval.md` 的 §3/§5（依赖 plan.md 的降级设计和不改清单），同时起草 `tasks.md`；两者评审确认。
 5. `tasks.md` 确认后，用 prompt ④ 让 Coding Agent 按 T-01→T-06 连续执行：T-01~T-05 编码实现（**代码写在 `src/` 下**），T-06 跑测试并把结果回填进 `eval.md`。人工滚动 review、纠偏。
 6. `eval.md` §7 的判定结论由人来签（`verdict_by` 填人名），判"通过"或"有条件通过"才进入下一步。
@@ -53,9 +53,10 @@ flowchart TD
 
 ```
 请阅读 prd.md，做需求理解，参照 templates/spec.template.md 的九节结构和
-frontmatter 字段起草 spec.md。§2（业务语义与元语消歧）和 §5（验收标准，用
-US-编号）不能省。不要涉及架构设计（用几个智能体、用什么框架），那是下一步
-plan.md 的事。
+frontmatter 字段起草 spec.md。§2（消歧）、§3（范围与场景）、§5（验收标准，
+用 US-编号，prd §4 五条验收标准要条条有 US 兜住）、§6（非功能口径）、§9
+（变更记录）这五节都不能省——后面 eval.md 和 learnings.md 直接从这里取数。
+不要涉及架构设计（用几个智能体、用什么框架），那是下一步 plan.md 的事。
 
 另外：凡是 PRD 里没有依据、你只能靠常识猜的地方，不要默默猜完写死。
 - §2.1 列出你替我们做了哪些裁决、哪些其实拿不准，标上暂定结论和依据；
@@ -123,14 +124,14 @@ eval.md 判定结论为"通过"或"有条件通过"后，请完成 tasks.md 的 
 **⑥ 部署完成后，生成 learnings.md**
 
 ```
-请自动读取以下内容，提炼出 L-01~L-05（问题/根因/修复/回流/可复用性），参照
-templates/learnings.template.md 的结构起草 learnings.md：
+请自动读取以下内容，提炼出 L-01 起的若干条（至少 3 条，问题/根因/修复/回流/
+可复用性），参照 templates/learnings.template.md 的结构起草 learnings.md：
 - spec.md §9、plan.md §8、tasks.md、eval.md §8 各自的"变更记录"（人评审时
   纠错和补充了什么；eval.md 有两轮评审，都要读）
 - tasks.md 各 Task"说明"里记的最小合理假设
 - eval.md §3/§4 里没通过的门禁、§6 遗留问题与未覆盖场景、§7 判定理由
 后面这几项是"实际测出来什么"，比"评审时改了什么"更能说明问题，别漏掉。
-挑真实发生、有具体落点的记录，不用凑够五条。
+挑真实发生、有具体落点的记录，不用为了凑满 5 条而注水。
 ```
 
 ## 目录结构
