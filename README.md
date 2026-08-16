@@ -153,10 +153,10 @@ templates/                      五份产出文档的结构模板（Coding Agent
 src/                            代码放这里（内部结构各组自己定，见 src/README.md）
 .env.example                    环境变量模板：cp .env.example .env 后填真实 Key
 .gitignore                      已挡掉 .env / venv / target 等，别绕过它提交密钥
-.claude/skills/                 技术中台知识库（存量系统更新环节用，绿地实战用不到）
-  README.md                     怎么写、怎么被 SDD 文档引用、怎么回流
-  _template/SKILL.md            最小模板
-  kb-order-domain/SKILL.md      填好的样例（订单域词条边界）
+knowledge/                      技术中台知识库（存量系统更新环节用，绿地实战用不到）
+  README.md                     怎么写、各工具怎么接、怎么回流
+  _template.md                  最小模板
+  kb-order-domain.md            填好的样例（订单域词条边界）
 
 你们组做完之后，仓库根目录还会多出这五份文档：
 spec.md  plan.md  tasks.md  eval.md  learnings.md
