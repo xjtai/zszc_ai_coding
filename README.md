@@ -153,7 +153,7 @@ templates/                      五份产出文档的结构模板（Coding Agent
 src/                            代码放这里（内部结构各组自己定，见 src/README.md）
 .env.example                    环境变量模板：cp .env.example .env 后填真实 Key
 .gitignore                      已挡掉 .env / venv / target 等，别绕过它提交密钥
-knowledge/                      技术中台知识库（存量系统更新环节用；客服系统是从零新建，用不到）
+knowledge/                      企业本体知识库（存量系统更新环节用；客服系统是从零新建，用不到）
   README.md                     怎么写、各工具怎么接、怎么回流
   _template.md                  最小模板
   kb-order-domain.md            填好的样例（订单域词条边界）
