@@ -12,7 +12,7 @@ created_at:
 updated_at:
 prd_ref: prd.md        # 本文件复制到仓库根目录后与 prd.md 同级
 tier: medium           # light / medium / heavy，见下方"档位怎么定"
-knowledge_refs: []      # 本次实战没有真实四层知识库，通常留空；引用了 prd.md 之外的资料才登记在这里
+knowledge_refs: []      # 绿地实战留空即可；做存量系统更新时，正文引用了哪条 skill 就登记进来，如 [kb-order-domain]（见 .claude/skills/README.md）
 related_specs: [plan.md, eval.md]
 score: {}               # 无自动评分脚本，留空即可
 ---
@@ -34,9 +34,11 @@ score: {}               # 无自动评分脚本，留空即可
         你。§9 记的这些改动不用另外整理，后面 learnings.md 会由
         Coding Agent 自动读取这里生成。
 
-  字段与结构说明      knowledge_refs / score 等字段假设有真实的四层
-        知识库和自动评分脚本，本次工作坊没有对应基础设施，留空即可，
-        不必强行凑数据。
+  字段与结构说明      score 假设有自动评分脚本，本次没有，留空即可。
+        knowledge_refs 在绿地实战里也留空——那时还没有存量系统可查；
+        进入**存量系统更新**环节后它就有用了：技术中台知识库以 skills
+        形式放在 .claude/skills/ 下，§2 消歧引用了哪条就登记进来
+        （如 [kb-order-domain]）。用法见 .claude/skills/README.md。
 
   档位怎么定（tier）      按需求规模分档决定写几节。本次实战是从零
         搭建一个新系统，没有下游系统、没有 DDL，但引入了全新的业务
