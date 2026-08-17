@@ -156,7 +156,10 @@ src/                            代码放这里（内部结构各组自己定，
 knowledge/                      企业本体知识库（存量系统更新环节用；客服系统是从零新建，用不到）
   README.md                     怎么写、各工具怎么接、怎么回流
   _template.md                  最小模板
-  kb-order-domain.md            填好的样例（订单域词条边界）
+  kb-order-domain.md            样例·业务层（词条边界）
+  kb-order-downstream.md        样例·架构层（下游依赖）
+  kb-refund-api.md              样例·系统层（接口实际约束）
+  kb-naming-legacy.md           样例·基建层（命名例外）
 
 你们组做完之后，仓库根目录还会多出这五份文档：
 spec.md  plan.md  tasks.md  eval.md  learnings.md
